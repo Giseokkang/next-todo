@@ -5,6 +5,8 @@ import TodoItem from './TodoItem';
 import { Todo } from '../../../types/todo.d';
 
 const TodoListBlock = styled.section`
+  overflow-y: auto;
+  max-height: calc(100vh - 192px);
   .section-title {
     overflow: hidden;
     position: absolute;
@@ -25,7 +27,7 @@ interface IProps {
 const TodoList: React.FC<IProps> = ({ todos, renderTodos }) => {
   return (
     <TodoListBlock>
-      <h2 className='section-title'>할 일 목록 리스트</h2>
+      <h2 className="section-title">할 일 목록 리스트</h2>
       <ul>
         {todos.map(todo => (
           <TodoItem key={uuidv4()} {...todo} renderTodos={renderTodos} />

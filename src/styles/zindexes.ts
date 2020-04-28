@@ -1,5 +1,6 @@
 const zIndexes = {
-  // z-index
+  utilWrapper: 2,
+  addTodoBlock: 1,
 };
 
 export default zIndexes;

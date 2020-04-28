@@ -5,9 +5,15 @@ import axios from 'axios';
 import Head from 'next/head';
 import HeaderWrapper from '../components/base/header/HeaderWrapper';
 import TodoWrapper from '../components/todo/TodoWrapper';
+import UtilWrapper from '../components/util/UtilWrapper';
 import { Todo } from '../../types/todo.d';
 
 const MainWrapper = styled.div`
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  position: relative;
   max-width: 375px;
   width: 100%;
   min-height: 100vh;
@@ -21,13 +27,19 @@ interface IProps {
 
 const Index: NextPage<IProps> = ({ initialTodos }) => {
   const [todos, setTodos] = useState(initialTodos);
-  useEffect(() => {
-    console.log(todos);
-  }, []);
+  const [popupVisible, setPopupVisible] = useState(true);
 
   const renderTodos = todos => {
     setTodos(todos);
   };
+
+  const popupToggle = () => {
+    setPopupVisible(!popupVisible);
+  };
+
+  useEffect(() => {
+    console.log(popupVisible);
+  }, [popupVisible]);
 
   return (
     <>
@@ -37,6 +49,7 @@ const Index: NextPage<IProps> = ({ initialTodos }) => {
       <MainWrapper>
         <HeaderWrapper />
         <TodoWrapper renderTodos={renderTodos} todos={todos} />
+        <UtilWrapper popupVisible={popupVisible} popupToggle={popupToggle} />
       </MainWrapper>
     </>
   );

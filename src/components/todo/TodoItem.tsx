@@ -4,8 +4,9 @@ import axios from 'axios';
 import palette from '../../styles/palette';
 import { Todo } from '../../../types/todo.d';
 
-const TodoItemBlock = styled.li<{ color: string }>`
+const TodoItemBlock = styled.li<{ color: string; done: boolean }>`
   position: relative;
+  border-bottom: 1px solid #e5e5e5;
 
   label {
     display: block;
@@ -30,6 +31,13 @@ const TodoItemBlock = styled.li<{ color: string }>`
       display: block;
       position: relative;
       padding: 0 48px 0 0;
+
+      ${({ done }) =>
+        done &&
+        `
+        color: #c6c4c4;
+        text-decoration: line-through;
+      `}
 
       &:after {
         content: '';
@@ -118,12 +126,12 @@ const TodoItem: React.FC<IProps> = ({
   }, []);
 
   return (
-    <TodoItemBlock color={level}>
+    <TodoItemBlock color={level} done={done}>
       <label htmlFor={`todo${id}`}>
         <input
           id={`todo${id}`}
           type='checkbox'
-          defaultChecked={done}
+          checked={done ? true : false}
           onChange={() => toggleDone(id)}
         />
         <span>{title}</span>

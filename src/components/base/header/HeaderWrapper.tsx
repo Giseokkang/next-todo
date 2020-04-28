@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 
 const HeaderWrapperBlock = styled.section`
@@ -11,12 +11,12 @@ const HeaderWrapperBlock = styled.section`
   .title {
     font-size: 1.3125rem;
   }
-`
+`;
 
 export default function HeaderWrapper() {
   return (
     <HeaderWrapperBlock>
       <h1 className="title">CheolHwan's TodoList</h1>
     </HeaderWrapperBlock>
-  )
+  );
 }

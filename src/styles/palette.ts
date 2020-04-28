@@ -6,6 +6,6 @@ const palette = {
   green: '#e2ffaf',
   blue: '#aee4ff',
   purple: '#b5c7ed',
-}
+};
 
 export default palette;

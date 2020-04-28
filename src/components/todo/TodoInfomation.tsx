@@ -94,18 +94,18 @@ const TodoInfomation: React.FC<IProps> = ({ todos }) => {
 
   return (
     <TodoInfomationBlock>
-      <h2 className='section-title'>남은 할 일 상세내용</h2>
-      <div className='remain-information-area'>
+      <h2 className="section-title">남은 할 일 상세내용</h2>
+      <div className="remain-information-area">
         <p>남은 TODO</p>
         <em>{count && count.total}개</em>
       </div>
-      <ul className='remain-count-area'>
-        <RemainItem color='pink'>{count && count.pink}개</RemainItem>
-        <RemainItem color='orange'>{count && count.orange}개</RemainItem>
-        <RemainItem color='yellow'>{count && count.yellow}개</RemainItem>
-        <RemainItem color='green'>{count && count.green}개</RemainItem>
-        <RemainItem color='blue'>{count && count.blue}개</RemainItem>
-        <RemainItem color='purple'>{count && count.purple}개</RemainItem>
+      <ul className="remain-count-area">
+        <RemainItem color="pink">{count && count.pink}개</RemainItem>
+        <RemainItem color="orange">{count && count.orange}개</RemainItem>
+        <RemainItem color="yellow">{count && count.yellow}개</RemainItem>
+        <RemainItem color="green">{count && count.green}개</RemainItem>
+        <RemainItem color="blue">{count && count.blue}개</RemainItem>
+        <RemainItem color="purple">{count && count.purple}개</RemainItem>
       </ul>
     </TodoInfomationBlock>
   );

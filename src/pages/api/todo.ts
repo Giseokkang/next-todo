@@ -41,9 +41,6 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
         const data = fs.readFileSync('todos.json', 'utf-8');
         res.status(200).json(data);
       }
-
-      if (req.method === 'POST') {
-      }
     }
   });
 };
