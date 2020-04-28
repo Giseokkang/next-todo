@@ -47,7 +47,8 @@ const RemainItem = styled.li<{ color: string }>`
   }
 `
 
-export default function TodoInfomation() {
+export default function TodoInfomation({ todos }) {
+  console.log(todos);
   return (
     <TodoInfomationBlock>
       <div className="remain-information-area">

@@ -1,4 +1,5 @@
 import React from 'react';
+import { NextPage } from 'next';
 import styled from 'styled-components';
 import axios from 'axios';
 import Head from 'next/head';
@@ -13,8 +14,18 @@ const MainWrapper = styled.div`
   background: #fff;
 `
 
-export default function Index(props) {
-  console.log(props.test);
+type Todo = {
+  id: number,
+  level: string,
+  title: string,
+  done: boolean
+}
+
+interface IProps {
+  todos: Todo[];
+}
+
+const Index: NextPage<IProps> = ({ todos }) => {
   return (
     <>
       <Head>
@@ -22,18 +33,18 @@ export default function Index(props) {
       </Head>
       <MainWrapper>
         <HeaderWrapper />
-        <TodoWrapper />
+        <TodoWrapper todos={todos} />
       </MainWrapper>
     </>
   )
 }
 
 Index.getInitialProps = async ({ res }) => {
-  const response = await axios.get('http://localhost:3000/api/todo');
-  const test = response.data;
-  console.log('test', test)
-  // return { users }
+  const { data } = await axios.get('http://localhost:3000/api/todo');
+
   return {
-    test
+    todos: data
   }
 };
+
+export default Index;

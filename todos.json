@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "id": "1",
+    "level": "orange",
+    "title": "할 일 목록1",
+    "done": "false"
+  },
+  {
+    "id": "2",
+    "level": "purple",
+    "title": "할 일 목록2",
+    "done": "false"
+  },
+  {
+    "id": "3",
+    "level": "blue",
+    "title": "할 일 목록3",
+    "done": "false"
+  },
+  {
+    "id": "4",
+    "level": "orange",
+    "title": "할 일 목록4",
+    "done": "false"
+  }
+]
