@@ -76,12 +76,9 @@ const TodoItemBlock = styled.li<{ color: string }>`
 
 export default function TodoItem() {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    // console.log(e.target.className);
-    console.log('삭제버튼');
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
   }
 
   return (

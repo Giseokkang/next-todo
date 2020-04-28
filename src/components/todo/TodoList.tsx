@@ -1,16 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import TodoItem from './TodoItem';
-import axios from 'axios';
 
 export default function TodoList() {
-  const getText = async () => {
-    const res = await axios.get('http://localhost:3000/api/todo');
-
-    console.log(res);
-  }
-  useEffect(() => {
-    getText();
-  }, [])
   return (
     <ul>
       <TodoItem />
