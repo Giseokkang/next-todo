@@ -1,16 +1,38 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import styled from 'styled-components';
 import TodoItem from './TodoItem';
+import { Todo } from '../../../types/todo.d';
 
-export default function TodoList({ todos }) {
-  console.log(todos);
-  return (
-    <ul>
-      <TodoItem />
-      <li>더미2</li>
-      <li>더미3</li>
-      <li>더미4</li>
-      <li>더미5</li>
-      <li>더미6</li>
-    </ul>
-  )
+const TodoListBlock = styled.section`
+  .section-title {
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    background-color: transparent;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+`;
+
+interface IProps {
+  todos: Todo[];
+  renderTodos: (todos: Todo[]) => void;
 }
+
+const TodoList: React.FC<IProps> = ({ todos, renderTodos }) => {
+  return (
+    <TodoListBlock>
+      <h2 className='section-title'>할 일 목록 리스트</h2>
+      <ul>
+        {todos.map(todo => (
+          <TodoItem key={uuidv4()} {...todo} renderTodos={renderTodos} />
+        ))}
+      </ul>
+    </TodoListBlock>
+  );
+};
+
+export default TodoList;

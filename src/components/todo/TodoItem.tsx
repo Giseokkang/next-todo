@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import palette from '../../styles/palette';
+import { Todo } from '../../../types/todo.d';
 
 const TodoItemBlock = styled.li<{ color: string }>`
   position: relative;
 
   label {
     display: block;
-    position: relative; 
+    position: relative;
     padding: 14px 12px 14px 24px;
-    
+
     &:before {
       content: '';
       position: absolute;
@@ -17,7 +19,9 @@ const TodoItemBlock = styled.li<{ color: string }>`
       left: 0;
       bottom: 0;
       width: 12px;
-      ${({ color }) => color && `
+      ${({ color }) =>
+        color &&
+        `
         background: ${palette[color]};
       `}
     }
@@ -41,7 +45,7 @@ const TodoItemBlock = styled.li<{ color: string }>`
       }
     }
 
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       position: absolute;
       top: 0;
       left: 0;
@@ -64,7 +68,7 @@ const TodoItemBlock = styled.li<{ color: string }>`
     z-index: 1;
     opacity: 0;
     transform: translateY(-50%);
-    transition: all .3s;
+    transition: all 0.3s;
   }
 
   &:hover {
@@ -72,22 +76,67 @@ const TodoItemBlock = styled.li<{ color: string }>`
       opacity: 1;
     }
   }
-`
+`;
 
-export default function TodoItem() {
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-  }
+interface IProps {
+  id: number;
+  level: string;
+  title: string;
+  done: boolean;
+  renderTodos: (todos: Todo[]) => void;
+}
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  }
+const TodoItem: React.FC<IProps> = ({
+  id,
+  level,
+  title,
+  done,
+  renderTodos,
+}) => {
+  const deleteTodo = useCallback(async (id: number) => {
+    try {
+      const { data } = await axios.delete('http://localhost:3000/api/todo', {
+        data: {
+          id,
+        },
+      });
+      renderTodos(data);
+    } catch (err) {
+      throw new Error(err);
+    }
+  }, []);
+
+  const toggleDone = useCallback(async (id: number) => {
+    try {
+      const { data } = await axios.patch('http://localhost:3000/api/todo', {
+        id,
+      });
+      renderTodos(data);
+    } catch (err) {
+      throw new Error(err);
+    }
+  }, []);
 
   return (
-    <TodoItemBlock color="pink">
-      <label htmlFor={`todo${1}`}>
-        <input id={`todo${1}`} type="checkbox" onChange={handleChange} />
-        <span>할일목록</span>
+    <TodoItemBlock color={level}>
+      <label htmlFor={`todo${id}`}>
+        <input
+          id={`todo${id}`}
+          type='checkbox'
+          defaultChecked={done}
+          onChange={() => toggleDone(id)}
+        />
+        <span>{title}</span>
       </label>
-      <button type="button" className="delete-btn" onClick={handleClick}><img src="/static/svg/delete.svg" alt="" /></button>
+      <button
+        type='button'
+        className='delete-btn'
+        onClick={() => deleteTodo(id)}
+      >
+        <img src='/static/svg/delete.svg' alt='삭제하기' />
+      </button>
     </TodoItemBlock>
-  )
-}
+  );
+};
+
+export default TodoItem;

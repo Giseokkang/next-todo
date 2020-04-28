@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import styled from 'styled-components';
 import axios from 'axios';
 import Head from 'next/head';
 import HeaderWrapper from '../components/base/header/HeaderWrapper';
 import TodoWrapper from '../components/todo/TodoWrapper';
+import { Todo } from '../../types/todo.d';
 
 const MainWrapper = styled.div`
   max-width: 375px;
@@ -12,20 +13,22 @@ const MainWrapper = styled.div`
   min-height: 100vh;
   margin: 0 auto;
   background: #fff;
-`
-
-type Todo = {
-  id: number,
-  level: string,
-  title: string,
-  done: boolean
-}
+`;
 
 interface IProps {
-  todos: Todo[];
+  initialTodos: Todo[];
 }
 
-const Index: NextPage<IProps> = ({ todos }) => {
+const Index: NextPage<IProps> = ({ initialTodos }) => {
+  const [todos, setTodos] = useState(initialTodos);
+  useEffect(() => {
+    console.log(todos);
+  }, []);
+
+  const renderTodos = todos => {
+    setTodos(todos);
+  };
+
   return (
     <>
       <Head>
@@ -33,18 +36,18 @@ const Index: NextPage<IProps> = ({ todos }) => {
       </Head>
       <MainWrapper>
         <HeaderWrapper />
-        <TodoWrapper todos={todos} />
+        <TodoWrapper renderTodos={renderTodos} todos={todos} />
       </MainWrapper>
     </>
-  )
-}
+  );
+};
 
 Index.getInitialProps = async ({ res }) => {
   const { data } = await axios.get('http://localhost:3000/api/todo');
 
   return {
-    todos: data
-  }
+    initialTodos: data,
+  };
 };
 
 export default Index;
