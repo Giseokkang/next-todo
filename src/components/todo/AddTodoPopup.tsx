@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import zIndexes from '../../styles/zindexes';
 import palette from '../../styles/palette';
+import { Todo } from '../../../types/todo.d';
 
 const AddTodoBlock = styled.div<{ visible: boolean }>`
   position: absolute;
@@ -92,14 +94,52 @@ const Radio = styled.input<{ level: string }>`
 
 interface IProps {
   visible: boolean;
+  nextId: number;
+  popupToggle: () => void;
+  renderTodos: (todos: Todo[]) => void;
 }
 
-const AddTodo: React.FC<IProps> = ({ visible }) => {
+const AddTodoPopup: React.FC<IProps> = ({
+  visible,
+  nextId,
+  popupToggle,
+  renderTodos,
+}) => {
+  const contentRef = useRef(null);
+  const [level, setLevel] = useState('pink');
+
+  const addTodo = async (content: string) => {
+    if (!content.trim()) return alert('값을 입력해주세요.');
+
+    try {
+      const addData = { id: nextId, content, level, done: false };
+      const { data } = await axios.post(
+        'http://localhost:3000/api/todo',
+        addData
+      );
+      console.log(data);
+      contentRef.current.value = '';
+
+      popupToggle();
+      renderTodos(data);
+    } catch (err) {
+      throw new Error(err);
+    }
+  };
+
+  const changeLevel = (level: string) => {
+    setLevel(level);
+  };
+
   return (
     <AddTodoBlock visible={visible}>
       <div className="title-area">
         <p className="title">Add Todo</p>
-        <button type="button" className="add-button">
+        <button
+          type="button"
+          className="add-button"
+          onClick={() => addTodo(contentRef.current.value)}
+        >
           추가하기
         </button>
       </div>
@@ -107,32 +147,63 @@ const AddTodo: React.FC<IProps> = ({ visible }) => {
         <ul className="level-list">
           <li>
             <label htmlFor="level">
-              <Radio type="radio" name="level" level="pink" defaultChecked />
+              <Radio
+                type="radio"
+                name="level"
+                level="pink"
+                onClick={() => changeLevel('pink')}
+                defaultChecked
+              />
             </label>
           </li>
           <li>
             <label htmlFor="level">
-              <Radio type="radio" name="level" level="orange" />
+              <Radio
+                type="radio"
+                name="level"
+                level="orange"
+                onClick={() => changeLevel('orange')}
+              />
             </label>
           </li>
           <li>
             <label htmlFor="level">
-              <Radio type="radio" name="level" level="yellow" />
+              <Radio
+                type="radio"
+                name="level"
+                level="yellow"
+                onClick={() => changeLevel('yellow')}
+              />
             </label>
           </li>
           <li>
             <label htmlFor="level">
-              <Radio type="radio" name="level" level="green" />
+              <Radio
+                type="radio"
+                name="level"
+                level="green"
+                onClick={() => changeLevel('green')}
+              />
             </label>
           </li>
           <li>
             <label htmlFor="level">
-              <Radio type="radio" name="level" level="blue" />
+              <Radio
+                type="radio"
+                name="level"
+                level="blue"
+                onClick={() => changeLevel('blue')}
+              />
             </label>
           </li>
           <li>
             <label htmlFor="level">
-              <Radio type="radio" name="level" level="purple" />
+              <Radio
+                type="radio"
+                name="level"
+                level="purple"
+                onClick={() => changeLevel('purple')}
+              />
             </label>
           </li>
         </ul>
@@ -141,10 +212,10 @@ const AddTodo: React.FC<IProps> = ({ visible }) => {
         </i>
       </div>
       <div className="text-field">
-        <textarea></textarea>
+        <textarea ref={contentRef}></textarea>
       </div>
     </AddTodoBlock>
   );
 };
 
-export default AddTodo;
+export default AddTodoPopup;

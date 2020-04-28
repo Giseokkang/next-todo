@@ -1,7 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import AddTodo from '../todo/AddTodo';
+import AddTodoPopup from '../todo/AddTodoPopup';
 import zIndexes from '../../styles/zindexes';
+import { Todo } from '../../../types/todo.d';
 
 const UtilWrapperBlock = styled.aside`
   position: relative;
@@ -61,11 +62,18 @@ const AddPopupButton = styled.button<{ open: boolean }>`
 `;
 
 interface IProps {
+  nextId: number;
   popupToggle: () => void;
   popupVisible: boolean;
+  renderTodos: (todos: Todo[]) => void;
 }
 
-const UtilWrapper: React.FC<IProps> = ({ popupToggle, popupVisible }) => {
+const UtilWrapper: React.FC<IProps> = ({
+  nextId,
+  popupToggle,
+  popupVisible,
+  renderTodos,
+}) => {
   return (
     <>
       <UtilWrapperBlock>
@@ -73,7 +81,12 @@ const UtilWrapper: React.FC<IProps> = ({ popupToggle, popupVisible }) => {
           추가하기
         </AddPopupButton>
       </UtilWrapperBlock>
-      <AddTodo visible={popupVisible} />
+      <AddTodoPopup
+        nextId={nextId}
+        visible={popupVisible}
+        popupToggle={popupToggle}
+        renderTodos={renderTodos}
+      />
     </>
   );
 };

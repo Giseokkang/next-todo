@@ -27,7 +27,8 @@ interface IProps {
 
 const Index: NextPage<IProps> = ({ initialTodos }) => {
   const [todos, setTodos] = useState(initialTodos);
-  const [popupVisible, setPopupVisible] = useState(true);
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [nextId, setNextId] = useState<number>();
 
   const renderTodos = todos => {
     setTodos(todos);
@@ -38,8 +39,9 @@ const Index: NextPage<IProps> = ({ initialTodos }) => {
   };
 
   useEffect(() => {
-    console.log(popupVisible);
-  }, [popupVisible]);
+    const nextId = Math.max(0, ...todos.map(todo => +todo.id)) + 1;
+    setNextId(nextId);
+  }, [todos]);
 
   return (
     <>
@@ -49,7 +51,12 @@ const Index: NextPage<IProps> = ({ initialTodos }) => {
       <MainWrapper>
         <HeaderWrapper />
         <TodoWrapper renderTodos={renderTodos} todos={todos} />
-        <UtilWrapper popupVisible={popupVisible} popupToggle={popupToggle} />
+        <UtilWrapper
+          nextId={nextId}
+          popupVisible={popupVisible}
+          popupToggle={popupToggle}
+          renderTodos={renderTodos}
+        />
       </MainWrapper>
     </>
   );

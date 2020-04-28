@@ -15,9 +15,8 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       if (req.method === 'GET') {
         res.status(200).json(dataJSON);
       } else if (req.method === 'POST') {
-        console.log(datas.push(req.body));
-
-        fs.writeFileSync('todos.json', JSON.stringify(datas));
+        const filterDatas = datas.concat([req.body]);
+        editTodos(filterDatas);
       } else if (req.method === 'PATCH') {
         const { id } = req.body;
 

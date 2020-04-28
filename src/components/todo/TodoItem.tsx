@@ -89,7 +89,7 @@ const TodoItemBlock = styled.li<{ color: string; done: boolean }>`
 interface IProps {
   id: number;
   level: string;
-  title: string;
+  content: string;
   done: boolean;
   renderTodos: (todos: Todo[]) => void;
 }
@@ -97,7 +97,7 @@ interface IProps {
 const TodoItem: React.FC<IProps> = ({
   id,
   level,
-  title,
+  content,
   done,
   renderTodos,
 }) => {
@@ -130,18 +130,18 @@ const TodoItem: React.FC<IProps> = ({
       <label htmlFor={`todo${id}`}>
         <input
           id={`todo${id}`}
-          type='checkbox'
+          type="checkbox"
           checked={done ? true : false}
           onChange={() => toggleDone(id)}
         />
-        <span>{title}</span>
+        <span>{content}</span>
       </label>
       <button
-        type='button'
-        className='delete-btn'
+        type="button"
+        className="delete-btn"
         onClick={() => deleteTodo(id)}
       >
-        <img src='/static/svg/delete.svg' alt='삭제하기' />
+        <img src="/static/svg/delete.svg" alt="삭제하기" />
       </button>
     </TodoItemBlock>
   );
