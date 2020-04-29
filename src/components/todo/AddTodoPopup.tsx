@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 import zIndexes from '../../styles/zindexes';
 import palette from '../../styles/palette';
 import { Todo } from '../../../types/todo.d';
@@ -117,7 +118,7 @@ const AddTodoPopup: React.FC<IProps> = ({
         'http://localhost:3000/api/todo',
         addData
       );
-      console.log(data);
+
       contentRef.current.value = '';
 
       popupToggle();
@@ -127,9 +128,20 @@ const AddTodoPopup: React.FC<IProps> = ({
     }
   };
 
-  const changeLevel = (level: string) => {
-    setLevel(level);
-  };
+  const levelRender = useMemo(
+    () =>
+      ['pink', 'orange', 'yellow', 'green', 'blue', 'purple'].map(level => (
+        <li key={uuidv4()}>
+          <Radio
+            type="radio"
+            name="level"
+            level={level}
+            onClick={() => setLevel(level)}
+          />
+        </li>
+      )),
+    []
+  );
 
   return (
     <AddTodoBlock visible={visible}>
@@ -144,69 +156,7 @@ const AddTodoPopup: React.FC<IProps> = ({
         </button>
       </div>
       <div className="level-list-box">
-        <ul className="level-list">
-          <li>
-            <label htmlFor="level">
-              <Radio
-                type="radio"
-                name="level"
-                level="pink"
-                onClick={() => changeLevel('pink')}
-                defaultChecked
-              />
-            </label>
-          </li>
-          <li>
-            <label htmlFor="level">
-              <Radio
-                type="radio"
-                name="level"
-                level="orange"
-                onClick={() => changeLevel('orange')}
-              />
-            </label>
-          </li>
-          <li>
-            <label htmlFor="level">
-              <Radio
-                type="radio"
-                name="level"
-                level="yellow"
-                onClick={() => changeLevel('yellow')}
-              />
-            </label>
-          </li>
-          <li>
-            <label htmlFor="level">
-              <Radio
-                type="radio"
-                name="level"
-                level="green"
-                onClick={() => changeLevel('green')}
-              />
-            </label>
-          </li>
-          <li>
-            <label htmlFor="level">
-              <Radio
-                type="radio"
-                name="level"
-                level="blue"
-                onClick={() => changeLevel('blue')}
-              />
-            </label>
-          </li>
-          <li>
-            <label htmlFor="level">
-              <Radio
-                type="radio"
-                name="level"
-                level="purple"
-                onClick={() => changeLevel('purple')}
-              />
-            </label>
-          </li>
-        </ul>
+        <ul className="level-list">{levelRender}</ul>
         <i>
           <img src="/static/svg/paint.svg" alt="페인트 아이콘" />
         </i>
