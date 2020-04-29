@@ -78,13 +78,13 @@ const AddTodoBlock = styled.div<{ visible: boolean }>`
 const Radio = styled.input<{ level: string }>`
   width: 24px;
   height: 24px;
+  border: 2px solid transparent;
   border-radius: 50%;
   ${({ level }) =>
     level &&
     `
     background: ${palette[level]};
   `}
-  border: 2px solid transparent;
   transition: border 0.3s;
   cursor: pointer;
 
