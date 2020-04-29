@@ -110,7 +110,7 @@ const AddTodoPopup: React.FC<IProps> = ({
   const [level, setLevel] = useState('pink');
 
   const addTodo = async (content: string) => {
-    if (content.trim() !== '') return alert('값을 입력해주세요.');
+    if (content.trim() === '') return alert('값을 입력해주세요.');
 
     try {
       const addData = { id: nextId, content, level, done: false };
@@ -137,6 +137,7 @@ const AddTodoPopup: React.FC<IProps> = ({
             name="level"
             level={level}
             onClick={() => setLevel(level)}
+            defaultChecked={level === 'pink' ? true : false}
           />
         </li>
       )),
