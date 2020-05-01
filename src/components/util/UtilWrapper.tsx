@@ -91,4 +91,4 @@ const UtilWrapper: React.FC<IProps> = ({
   );
 };
 
-export default UtilWrapper;
+export default React.memo(UtilWrapper);

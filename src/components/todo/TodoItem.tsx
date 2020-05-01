@@ -67,7 +67,7 @@ const TodoItemBlock = styled.li<{ color: string; done: boolean }>`
     }
   }
 
-  .delete-btn {
+  .todo-item-delete-btn {
     position: absolute;
     top: 50%;
     right: 44px;
@@ -80,7 +80,7 @@ const TodoItemBlock = styled.li<{ color: string; done: boolean }>`
   }
 
   &:hover {
-    .delete-btn {
+    .todo-item-delete-btn {
       opacity: 1;
     }
   }
@@ -110,7 +110,7 @@ const TodoItem: React.FC<IProps> = ({
       });
       renderTodos(data);
     } catch (err) {
-      throw new Error(err);
+      console.log(err);
     }
   }, []);
 
@@ -121,7 +121,7 @@ const TodoItem: React.FC<IProps> = ({
       });
       renderTodos(data);
     } catch (err) {
-      throw new Error(err);
+      console.log(err);
     }
   }, []);
 
@@ -138,7 +138,7 @@ const TodoItem: React.FC<IProps> = ({
       </label>
       <button
         type="button"
-        className="delete-btn"
+        className="todo-item-delete-btn"
         onClick={() => deleteTodo(id)}
       >
         <img src="/static/svg/delete.svg" alt="삭제하기" />

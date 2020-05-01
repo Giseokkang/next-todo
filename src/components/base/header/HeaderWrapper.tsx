@@ -8,15 +8,17 @@ const HeaderWrapperBlock = styled.section`
   padding: 0 12px;
   border-bottom: 1px solid #e5e5e5;
 
-  .title {
+  .header-wrapper-title {
     font-size: 1.3125rem;
   }
 `;
 
-export default function HeaderWrapper() {
+const HeaderWrapper = () => {
   return (
     <HeaderWrapperBlock>
-      <h1 className="title">CheolHwan's TodoList</h1>
+      <h1 className="header-wrapper-title">CheolHwan's TodoList</h1>
     </HeaderWrapperBlock>
   );
-}
+};
+
+export default React.memo(HeaderWrapper);

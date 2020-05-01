@@ -30,16 +30,14 @@ const Index: NextPage<IProps> = ({ initialTodos }) => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [nextId, setNextId] = useState<number>();
 
-  const renderTodos = todos => {
-    setTodos(todos);
-  };
+  const renderTodos = (todos: Todo[]) => setTodos(todos);
 
-  const popupToggle = () => {
-    setPopupVisible(!popupVisible);
-  };
+  const popupToggle = () => setPopupVisible(!popupVisible);
 
   useEffect(() => {
-    const nextId = Math.max(0, ...todos.map(todo => +todo.id)) + 1;
+    const todosIds = todos.map(todo => +todo.id);
+    const nextId = Math.max(0, ...todosIds) + 1;
+
     setNextId(nextId);
   }, [todos]);
 
@@ -62,7 +60,7 @@ const Index: NextPage<IProps> = ({ initialTodos }) => {
   );
 };
 
-Index.getInitialProps = async ({ res }) => {
+Index.getInitialProps = async () => {
   const { data } = await axios.get('http://localhost:3000/api/todo');
 
   return {

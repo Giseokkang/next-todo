@@ -17,4 +17,4 @@ const TodoWrapper: React.FC<IProps> = ({ todos, renderTodos }) => {
   );
 };
 
-export default TodoWrapper;
+export default React.memo(TodoWrapper);
