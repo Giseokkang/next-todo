@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import styled from 'styled-components';
-import axios from 'axios';
 import Head from 'next/head';
 import HeaderWrapper from '../components/base/header/HeaderWrapper';
 import TodoWrapper from '../components/todo/TodoWrapper';
 import UtilWrapper from '../components/util/UtilWrapper';
 import { Todo } from '../../types/todo.d';
 import useTodo from '../lib/hooks/useTodo';
+import * as todoAPI from '../pages/api/todo';
 
 const MainWrapper = styled.div`
   overflow: hidden;
@@ -51,7 +51,7 @@ const Index: NextPage<IProps> = ({ initialTodos }) => {
 };
 
 Index.getInitialProps = async () => {
-  const { data } = await axios.get('http://localhost:3000/api/todo');
+  const { data } = await todoAPI.getTodo();
   return {
     initialTodos: data,
   };

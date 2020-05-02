@@ -1,6 +1,7 @@
 import React from 'react';
 import withRedux from 'next-redux-wrapper';
 import { Provider } from 'react-redux';
+import withReduxSaga from 'next-redux-saga';
 import configureStore from '../modules/configureStore';
 import '../index.css';
 
@@ -23,4 +24,4 @@ MyApp.getInitialProps = async context => {
   return { pageProps };
 };
 
-export default withRedux(configureStore)(MyApp);
+export default withRedux(configureStore)(withReduxSaga(MyApp));
