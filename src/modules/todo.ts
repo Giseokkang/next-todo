@@ -2,11 +2,13 @@ import { createAction, createReducer, ActionType } from 'typesafe-actions';
 import produce from 'immer';
 import { Todo } from '../../types/todo';
 
+const SET_TODO = 'todo/SET_TODO';
 const ADD_TODO = 'todo/ADD_TODO';
 const DELETE_TODO = 'todo/DELETE_TODO';
 const CHANGE_DONE = 'todo/CHANGE_DONE';
 
 export const todoActions = {
+  setTodo: createAction(SET_TODO)<Todo[]>(),
   addTodo: createAction(ADD_TODO)<{
     content: string;
     level: string;
@@ -26,6 +28,11 @@ const initialState: TodosState = {
 };
 
 const todos = createReducer<TodosState, TodosAction>(initialState, {
+  [SET_TODO]: (state, { payload: todos }) =>
+    produce(state, draft => {
+      draft.todos.push(...todos);
+    }),
+
   [ADD_TODO]: (state, { payload: { content, level } }) =>
     produce(state, draft => {
       const todosIds = draft.todos.map(todo => +todo.id);

@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 import TodoItem from './TodoItem';
 import { Todo } from '../../../types/todo.d';
+import useTodo from '../../lib/hooks/useTodo';
 
 const TodoListBlock = styled.section`
   overflow-y: auto;
@@ -19,19 +20,16 @@ const TodoListBlock = styled.section`
   }
 `;
 
-interface IProps {
-  // todos: Todo[];
-  // renderTodos: (todos: Todo[]) => void;
-}
+const TodoList: React.FC = () => {
+  const { todos } = useTodo();
 
-const TodoList: React.FC<IProps> = () => {
   return (
     <TodoListBlock>
       <h2 className="todo-list-title">할 일 목록 리스트</h2>
       <ul>
-        {/* {todos.map(todo => (
-          <TodoItem key={uuidv4()} {...todo} renderTodos={renderTodos} />
-        ))} */}
+        {todos.map(todo => (
+          <TodoItem key={uuidv4()} {...todo} />
+        ))}
       </ul>
     </TodoListBlock>
   );

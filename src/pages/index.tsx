@@ -7,6 +7,7 @@ import HeaderWrapper from '../components/base/header/HeaderWrapper';
 import TodoWrapper from '../components/todo/TodoWrapper';
 import UtilWrapper from '../components/util/UtilWrapper';
 import { Todo } from '../../types/todo.d';
+import useTodo from '../lib/hooks/useTodo';
 
 const MainWrapper = styled.div`
   overflow: hidden;
@@ -26,21 +27,14 @@ interface IProps {
 }
 
 const Index: NextPage<IProps> = ({ initialTodos }) => {
-  console.log(initialTodos);
-  // const [todos, setTodos] = useState(initialTodos);
+  const { onSetTodo } = useTodo();
   const [popupVisible, setPopupVisible] = useState(false);
-  // const [nextId, setNextId] = useState<number>();
-
-  // const renderTodos = (todos: Todo[]) => setTodos(todos);
 
   const popupToggle = () => setPopupVisible(!popupVisible);
 
-  // useEffect(() => {
-  //   const todosIds = todos.map(todo => +todo.id);
-  //   const nextId = Math.max(0, ...todosIds) + 1;
-
-  //   setNextId(nextId);
-  // }, [todos]);
+  useEffect(() => {
+    onSetTodo(initialTodos);
+  }, []);
 
   return (
     <>
@@ -58,7 +52,6 @@ const Index: NextPage<IProps> = ({ initialTodos }) => {
 
 Index.getInitialProps = async () => {
   const { data } = await axios.get('http://localhost:3000/api/todo');
-  console.log(data);
   return {
     initialTodos: data,
   };

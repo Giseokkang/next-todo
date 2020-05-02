@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import axios from 'axios';
 import palette from '../../styles/palette';
 import { Todo } from '../../../types/todo.d';
@@ -22,9 +22,9 @@ const TodoItemBlock = styled.li<{ color: string; done: boolean }>`
       width: 12px;
       ${({ color }) =>
         color &&
-        `
-        background: ${palette[color]};
-      `}
+        css`
+          background: ${palette[color]};
+        `}
     }
 
     span {
@@ -34,10 +34,10 @@ const TodoItemBlock = styled.li<{ color: string; done: boolean }>`
 
       ${({ done }) =>
         done &&
-        `
-        color: #c6c4c4;
-        text-decoration: line-through;
-      `}
+        css`
+          color: #c6c4c4;
+          text-decoration: line-through;
+        `}
 
       &:after {
         content: '';
@@ -91,39 +91,30 @@ interface IProps {
   level: string;
   content: string;
   done: boolean;
-  renderTodos: (todos: Todo[]) => void;
 }
 
-const TodoItem: React.FC<IProps> = ({
-  id,
-  level,
-  content,
-  done,
-  renderTodos,
-}) => {
-  const deleteTodo = useCallback(async (id: number) => {
-    try {
-      const { data } = await axios.delete('http://localhost:3000/api/todo', {
-        data: {
-          id,
-        },
-      });
-      renderTodos(data);
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
+const TodoItem: React.FC<IProps> = ({ id, level, content, done }) => {
+  // const deleteTodo = useCallback(async (id: number) => {
+  //   try {
+  //     const { data } = await axios.delete('http://localhost:3000/api/todo', {
+  //       data: {
+  //         id,
+  //       },
+  //     });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }, []);
 
-  const changeDone = useCallback(async (id: number) => {
-    try {
-      const { data } = await axios.patch('http://localhost:3000/api/todo', {
-        id,
-      });
-      renderTodos(data);
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
+  // const changeDone = useCallback(async (id: number) => {
+  //   try {
+  //     const { data } = await axios.patch('http://localhost:3000/api/todo', {
+  //       id,
+  //     });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }, []);
 
   return (
     <TodoItemBlock color={level} done={done}>
@@ -131,15 +122,15 @@ const TodoItem: React.FC<IProps> = ({
         <input
           id={`todo${id}`}
           type="checkbox"
-          checked={done ? true : false}
-          onChange={() => changeDone(id)}
+          defaultChecked={done}
+          // onChange={() => changeDone(id)}
         />
         <span>{content}</span>
       </label>
       <button
         type="button"
         className="todo-item-delete-btn"
-        onClick={() => deleteTodo(id)}
+        // onClick={() => deleteTodo(id)}
       >
         <img src="/static/svg/delete.svg" alt="삭제하기" />
       </button>

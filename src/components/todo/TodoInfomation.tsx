@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import palette from '../../styles/palette';
 import { Todo } from '../../../types/todo.d';
+import useTodo from '../../lib/hooks/useTodo';
 
 const TodoInfomationBlock = styled.section`
   padding: 12px;
@@ -69,29 +70,28 @@ type CountTypes = {
 };
 
 const TodoInfomation: React.FC = () => {
+  const { remainTodos } = useTodo();
   const [count, setCount] = useState<CountTypes>();
   const levelList = ['pink', 'orange', 'yellow', 'green', 'blue', 'purple'];
 
-  // useEffect(() => {
-  //   const remainTodos = todos.filter(todo => todo.done === false);
+  useEffect(() => {
+    setCount({
+      total: remainTodos.length,
+      pink: remainTodos.filter(todo => todo.level === 'pink').length,
+      orange: remainTodos.filter(todo => todo.level === 'orange').length,
+      yellow: remainTodos.filter(todo => todo.level === 'yellow').length,
+      green: remainTodos.filter(todo => todo.level === 'green').length,
+      blue: remainTodos.filter(todo => todo.level === 'blue').length,
+      purple: remainTodos.filter(todo => todo.level === 'purple').length,
+    });
+  }, [remainTodos]);
 
-  //   setCount({
-  //     total: remainTodos.length,
-  //     pink: remainTodos.filter(todo => todo.level === 'pink').length,
-  //     orange: remainTodos.filter(todo => todo.level === 'orange').length,
-  //     yellow: remainTodos.filter(todo => todo.level === 'yellow').length,
-  //     green: remainTodos.filter(todo => todo.level === 'green').length,
-  //     blue: remainTodos.filter(todo => todo.level === 'blue').length,
-  //     purple: remainTodos.filter(todo => todo.level === 'purple').length,
-  //   });
-  // }, [todos]);
-
-  // const renderRemainItem = () =>
-  //   levelList.map(level => (
-  //     <RemainItem key={uuidv4()} color={level}>
-  //       {count && count[level]}개
-  //     </RemainItem>
-  //   ));
+  const renderRemainItem = () =>
+    levelList.map(level => (
+      <RemainItem key={uuidv4()} color={level}>
+        {count && count[level]}개
+      </RemainItem>
+    ));
 
   return (
     <TodoInfomationBlock>
@@ -100,7 +100,7 @@ const TodoInfomation: React.FC = () => {
         <p>남은 TODO</p>
         <em>{count && count.total}개</em>
       </div>
-      {/* <ul className="remain-count-area">{renderRemainItem()}</ul> */}
+      <ul className="remain-count-area">{renderRemainItem()}</ul>
     </TodoInfomationBlock>
   );
 };
