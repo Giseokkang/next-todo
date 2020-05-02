@@ -6,6 +6,7 @@ import zIndexes from '../../styles/zindexes';
 import palette from '../../styles/palette';
 import { Todo } from '../../../types/todo.d';
 import Paint from '../../../public/static/svg/paint.svg';
+import useTodo from '../../lib/hooks/useTodo';
 
 const AddTodoBlock = styled.div<{ visible: boolean }>`
   position: absolute;
@@ -101,58 +102,49 @@ interface IProps {
 
 const AddTodoPopup: React.FC<IProps> = ({ visible, popupToggle }) => {
   const contentRef = useRef(null);
+  const { onAddTodo } = useTodo();
   const [level, setLevel] = useState('pink');
   const levelList = ['pink', 'orange', 'yellow', 'green', 'blue', 'purple'];
 
-  // const addTodo = async (content: string) => {
-  //   if (content.trim() === '') return alert('값을 입력해주세요');
+  const addTodo = async () => {
+    let content = contentRef.current.value;
+    if (content.trim() === '') return alert('값을 입력해주세요');
+    onAddTodo(content, level);
+    popupToggle();
 
-  //   try {
-  //     const addData = { id: nextId, content, level, done: false };
-  //     const { data } = await axios.post(
-  //       'http://localhost:3000/api/todo',
-  //       addData
-  //     );
+    contentRef.current.value = '';
+  };
 
-  //     contentRef.current.value = '';
-
-  //     popupToggle();
-  //     renderTodos(data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // const levelRender = useMemo(
-  //   () =>
-  //     levelList.map(level => (
-  //       <li key={uuidv4()}>
-  //         <Radio
-  //           type="radio"
-  //           name="level"
-  //           level={level}
-  //           onClick={() => setLevel(level)}
-  //           defaultChecked={level === 'pink'}
-  //         />
-  //       </li>
-  //     )),
-  //   []
-  // );
+  const levelRender = useMemo(
+    () =>
+      levelList.map(level => (
+        <li key={uuidv4()}>
+          <Radio
+            type="radio"
+            name="level"
+            level={level}
+            onClick={() => setLevel(level)}
+            defaultChecked={level === 'pink'}
+          />
+        </li>
+      )),
+    []
+  );
 
   return (
     <AddTodoBlock visible={visible}>
       <div className="add-todo-popup-title-wrapper">
         <p className="add-todo-popup-title">Add Todo</p>
-        {/* <button
+        <button
           type="button"
           className="add-todo-popup-add-button"
-          onClick={() => addTodo(contentRef.current.value)}
+          onClick={() => addTodo()}
         >
           추가하기
-        </button> */}
+        </button>
       </div>
       <div className="add-todo-popup-level-list-box">
-        {/* <ul className="add-todo-popup-level-list">{levelRender}</ul> */}
+        <ul className="add-todo-popup-level-list">{levelRender}</ul>
         <i>
           <Paint />
         </i>

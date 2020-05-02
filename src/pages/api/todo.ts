@@ -15,8 +15,15 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       if (req.method === 'GET') {
         res.status(200).json(dataJSON);
       } else if (req.method === 'POST') {
-        const filterDatas = datas.concat([req.body]);
-        editTodos(filterDatas);
+        const { content, level } = req.body;
+        const todosIds = datas.map(todo => +todo.id);
+        const nextId = Math.max(0, ...todosIds) + 1;
+
+        const newData = datas.concat([
+          { id: nextId, content, level, done: false },
+        ]);
+
+        editTodos(newData);
       } else if (req.method === 'PATCH') {
         const { id } = req.body;
 
