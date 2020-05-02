@@ -20,9 +20,43 @@ const useTodo = () => {
   const onAddTodo = useCallback(
     async (content: string, level: string) => {
       const addData = { content, level };
-      await axios.post('http://localhost:3000/api/todo', addData);
+      try {
+        await axios.post('http://localhost:3000/api/todo', addData);
 
-      dispatch(todoActions.addTodo(addData));
+        dispatch(todoActions.addTodo(addData));
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [dispatch]
+  );
+
+  const onDeleteTodo = useCallback(
+    async (id: number) => {
+      try {
+        await axios.delete('http://localhost:3000/api/todo', {
+          data: {
+            id,
+          },
+        });
+        dispatch(todoActions.deleteTodo(id));
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [dispatch]
+  );
+
+  const onChangeDone = useCallback(
+    async (id: number) => {
+      try {
+        await axios.patch('http://localhost:3000/api/todo', {
+          id,
+        });
+        dispatch(todoActions.changeDone(id));
+      } catch (err) {
+        console.log(err);
+      }
     },
     [dispatch]
   );
@@ -32,6 +66,8 @@ const useTodo = () => {
     remainTodos,
     onSetTodo,
     onAddTodo,
+    onDeleteTodo,
+    onChangeDone,
   };
 };
 

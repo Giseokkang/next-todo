@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
-import axios from 'axios';
 import palette from '../../styles/palette';
-import { Todo } from '../../../types/todo.d';
+import useTodo from '../../lib/hooks/useTodo';
+import Delete from '../../../public/static/svg/delete.svg';
 
 const TodoItemBlock = styled.li<{ color: string; done: boolean }>`
   position: relative;
@@ -94,27 +94,7 @@ interface IProps {
 }
 
 const TodoItem: React.FC<IProps> = ({ id, level, content, done }) => {
-  // const deleteTodo = useCallback(async (id: number) => {
-  //   try {
-  //     const { data } = await axios.delete('http://localhost:3000/api/todo', {
-  //       data: {
-  //         id,
-  //       },
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }, []);
-
-  // const changeDone = useCallback(async (id: number) => {
-  //   try {
-  //     const { data } = await axios.patch('http://localhost:3000/api/todo', {
-  //       id,
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }, []);
+  const { onDeleteTodo, onChangeDone } = useTodo();
 
   return (
     <TodoItemBlock color={level} done={done}>
@@ -123,16 +103,16 @@ const TodoItem: React.FC<IProps> = ({ id, level, content, done }) => {
           id={`todo${id}`}
           type="checkbox"
           defaultChecked={done}
-          // onChange={() => changeDone(id)}
+          onChange={() => onChangeDone(id)}
         />
         <span>{content}</span>
       </label>
       <button
         type="button"
         className="todo-item-delete-btn"
-        // onClick={() => deleteTodo(id)}
+        onClick={() => onDeleteTodo(id)}
       >
-        <img src="/static/svg/delete.svg" alt="삭제하기" />
+        <Delete />
       </button>
     </TodoItemBlock>
   );

@@ -54,9 +54,9 @@ const todos = createReducer<TodosState, TodosAction>(initialState, {
 
   [CHANGE_DONE]: (state, { payload: id }) =>
     produce(state, draft => {
-      draft.todos.map(todo =>
-        todo.id === id ? { ...todo, done: !todo.done } : todo
-      );
+      const index = draft.todos.findIndex(todo => todo.id === id);
+      const selectTodo = draft.todos[index];
+      selectTodo.done = !selectTodo.done;
     }),
 });
 

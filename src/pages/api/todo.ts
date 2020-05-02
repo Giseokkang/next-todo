@@ -39,10 +39,10 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
         editTodos(filterDatas);
       }
     } else {
+      // 최초 todos.json 파일을 생성하고 todos를 응답해주는 로직
       const initialData = JSON.stringify([]);
       fs.writeFileSync('todos.json', initialData);
 
-      // 최초 todos 렌더링
       if (req.method === 'GET') {
         const data = fs.readFileSync('todos.json', 'utf-8');
         res.status(200).json(data);
