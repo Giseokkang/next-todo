@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import palette from '../../styles/palette';
-import { Todo } from '../../../types/todo.d';
 import useTodo from '../../lib/hooks/useTodo';
 
 const TodoInfomationBlock = styled.section`
