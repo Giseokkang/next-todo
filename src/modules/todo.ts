@@ -6,19 +6,19 @@ const ADD_TODO = 'todo/ADD_TODO';
 const DELETE_TODO = 'todo/DELETE_TODO';
 const CHANGE_DONE = 'todo/CHANGE_DONE';
 
-export const addTodo = createAction(ADD_TODO)<{
-  content: string;
-  level: string;
-}>();
-export const deleteTodo = createAction(DELETE_TODO)<number>();
-export const changeDone = createAction(CHANGE_DONE)<number>();
-
-const todoActions = { addTodo, deleteTodo, changeDone };
+export const todoActions = {
+  addTodo: createAction(ADD_TODO)<{
+    content: string;
+    level: string;
+  }>(),
+  deleteTodo: createAction(DELETE_TODO)<number>(),
+  changeDone: createAction(CHANGE_DONE)<number>(),
+};
 
 type TodosAction = ActionType<typeof todoActions>;
 
 type TodosState = {
-  todos: Todo[] | [];
+  todos: Todo[];
 };
 
 const initialState: TodosState = {
@@ -31,7 +31,7 @@ const todos = createReducer<TodosState, TodosAction>(initialState, {
       const todosIds = draft.todos.map(todo => +todo.id);
       const nextId = Math.max(0, ...todosIds) + 1;
 
-      draft.push({
+      draft.todos.push({
         id: nextId,
         level,
         content,
@@ -42,7 +42,7 @@ const todos = createReducer<TodosState, TodosAction>(initialState, {
   [DELETE_TODO]: (state, { payload: id }) =>
     produce(state, draft => {
       const index = draft.todos.findIndex(todo => todo.id === id);
-      draft.splice(index, 1);
+      draft.todos.splice(index, 1);
     }),
 
   [CHANGE_DONE]: (state, { payload: id }) =>

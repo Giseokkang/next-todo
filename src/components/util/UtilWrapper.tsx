@@ -62,18 +62,11 @@ const AddPopupButton = styled.button<{ open: boolean }>`
 `;
 
 interface IProps {
-  nextId: number;
   popupToggle: () => void;
   popupVisible: boolean;
-  renderTodos: (todos: Todo[]) => void;
 }
 
-const UtilWrapper: React.FC<IProps> = ({
-  nextId,
-  popupToggle,
-  popupVisible,
-  renderTodos,
-}) => {
+const UtilWrapper: React.FC<IProps> = ({ popupToggle, popupVisible }) => {
   return (
     <>
       <UtilWrapperBlock>
@@ -81,12 +74,7 @@ const UtilWrapper: React.FC<IProps> = ({
           추가하기
         </AddPopupButton>
       </UtilWrapperBlock>
-      <AddTodoPopup
-        nextId={nextId}
-        visible={popupVisible}
-        popupToggle={popupToggle}
-        renderTodos={renderTodos}
-      />
+      <AddTodoPopup visible={popupVisible} popupToggle={popupToggle} />
     </>
   );
 };

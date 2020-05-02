@@ -20,18 +20,18 @@ const TodoListBlock = styled.section`
 `;
 
 interface IProps {
-  todos: Todo[];
-  renderTodos: (todos: Todo[]) => void;
+  // todos: Todo[];
+  // renderTodos: (todos: Todo[]) => void;
 }
 
-const TodoList: React.FC<IProps> = ({ todos, renderTodos }) => {
+const TodoList: React.FC<IProps> = () => {
   return (
     <TodoListBlock>
       <h2 className="todo-list-title">할 일 목록 리스트</h2>
       <ul>
-        {todos.map(todo => (
+        {/* {todos.map(todo => (
           <TodoItem key={uuidv4()} {...todo} renderTodos={renderTodos} />
-        ))}
+        ))} */}
       </ul>
     </TodoListBlock>
   );

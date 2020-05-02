@@ -26,20 +26,21 @@ interface IProps {
 }
 
 const Index: NextPage<IProps> = ({ initialTodos }) => {
-  const [todos, setTodos] = useState(initialTodos);
+  console.log(initialTodos);
+  // const [todos, setTodos] = useState(initialTodos);
   const [popupVisible, setPopupVisible] = useState(false);
-  const [nextId, setNextId] = useState<number>();
+  // const [nextId, setNextId] = useState<number>();
 
-  const renderTodos = (todos: Todo[]) => setTodos(todos);
+  // const renderTodos = (todos: Todo[]) => setTodos(todos);
 
   const popupToggle = () => setPopupVisible(!popupVisible);
 
-  useEffect(() => {
-    const todosIds = todos.map(todo => +todo.id);
-    const nextId = Math.max(0, ...todosIds) + 1;
+  // useEffect(() => {
+  //   const todosIds = todos.map(todo => +todo.id);
+  //   const nextId = Math.max(0, ...todosIds) + 1;
 
-    setNextId(nextId);
-  }, [todos]);
+  //   setNextId(nextId);
+  // }, [todos]);
 
   return (
     <>
@@ -48,13 +49,8 @@ const Index: NextPage<IProps> = ({ initialTodos }) => {
       </Head>
       <MainWrapper>
         <HeaderWrapper />
-        <TodoWrapper renderTodos={renderTodos} todos={todos} />
-        <UtilWrapper
-          nextId={nextId}
-          popupVisible={popupVisible}
-          popupToggle={popupToggle}
-          renderTodos={renderTodos}
-        />
+        <TodoWrapper />
+        <UtilWrapper popupVisible={popupVisible} popupToggle={popupToggle} />
       </MainWrapper>
     </>
   );
@@ -62,7 +58,7 @@ const Index: NextPage<IProps> = ({ initialTodos }) => {
 
 Index.getInitialProps = async () => {
   const { data } = await axios.get('http://localhost:3000/api/todo');
-
+  console.log(data);
   return {
     initialTodos: data,
   };
