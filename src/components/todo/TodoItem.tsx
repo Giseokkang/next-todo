@@ -114,7 +114,7 @@ const TodoItem: React.FC<IProps> = ({
     }
   }, []);
 
-  const toggleDone = useCallback(async (id: number) => {
+  const changeDone = useCallback(async (id: number) => {
     try {
       const { data } = await axios.patch('http://localhost:3000/api/todo', {
         id,
@@ -132,7 +132,7 @@ const TodoItem: React.FC<IProps> = ({
           id={`todo${id}`}
           type="checkbox"
           checked={done ? true : false}
-          onChange={() => toggleDone(id)}
+          onChange={() => changeDone(id)}
         />
         <span>{content}</span>
       </label>
