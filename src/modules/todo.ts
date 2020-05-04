@@ -35,23 +35,23 @@ export const todoActions = {
 
 type TodosAction = ActionType<typeof todoActions>;
 
-type watchSetTodoRequestAction = ReturnType<typeof todoActions.setTodo.request>;
-type watchSetTodoSuccessAction = ReturnType<typeof todoActions.setTodo.success>;
+type WatchSetTodoRequestAction = ReturnType<typeof todoActions.setTodo.request>;
+type WatchSetTodoSuccessAction = ReturnType<typeof todoActions.setTodo.success>;
 
-type watchAddTodoRequestAction = ReturnType<typeof todoActions.addTodo.request>;
-type watchAddTodoSuccessAction = ReturnType<typeof todoActions.addTodo.success>;
+type WatchAddTodoRequestAction = ReturnType<typeof todoActions.addTodo.request>;
+type WatchAddTodoSuccessAction = ReturnType<typeof todoActions.addTodo.success>;
 
-type watchDeleteTodoRequestAction = ReturnType<
+type WatchDeleteTodoRequestAction = ReturnType<
   typeof todoActions.deleteTodo.request
 >;
-type watchDeleteTodoSuccessAction = ReturnType<
+type WatchDeleteTodoSuccessAction = ReturnType<
   typeof todoActions.deleteTodo.success
 >;
 
-type watchChangeDoneRequestAction = ReturnType<
+type WatchChangeDoneRequestAction = ReturnType<
   typeof todoActions.changeDone.request
 >;
-type watchChangeDoneSuccessAction = ReturnType<
+type WatchChangeDoneSuccessAction = ReturnType<
   typeof todoActions.changeDone.success
 >;
 
@@ -64,30 +64,30 @@ const initialState: TodosState = {
 };
 
 const todos = createReducer<TodosState, TodosAction>(initialState, {
-  [SET_TODO.SUCCESS]: (state, action: watchSetTodoSuccessAction) =>
+  [SET_TODO.SUCCESS]: (state, action: WatchSetTodoSuccessAction) =>
     produce(state, draft => {
       draft.todos = action.payload;
     }),
 
-  [ADD_TODO.SUCCESS]: (state, action: watchAddTodoSuccessAction) =>
+  [ADD_TODO.SUCCESS]: (state, action: WatchAddTodoSuccessAction) =>
     produce(state, draft => {
       draft.todos = action.payload;
     }),
 
-  [DELETE_TODO.SUCCESS]: (state, action: watchDeleteTodoSuccessAction) =>
+  [DELETE_TODO.SUCCESS]: (state, action: WatchDeleteTodoSuccessAction) =>
     produce(state, draft => {
       draft.todos = action.payload;
     }),
 
-  [CHANGE_DONE.SUCCESS]: (state, action: watchChangeDoneSuccessAction) =>
+  [CHANGE_DONE.SUCCESS]: (state, action: WatchChangeDoneSuccessAction) =>
     produce(state, draft => {
       draft.todos = action.payload;
     }),
 });
 
-function* watchSetTodo() {
+function* WatchSetTodo() {
   yield takeLatest(SET_TODO.REQUEST, function* (
-    action: watchSetTodoRequestAction
+    action: WatchSetTodoRequestAction
   ) {
     try {
       yield put({ type: SET_TODO.SUCCESS, payload: action.payload });
@@ -97,9 +97,9 @@ function* watchSetTodo() {
   });
 }
 
-function* watchAddTodo() {
+function* WatchAddTodo() {
   yield takeLatest(ADD_TODO.REQUEST, function* (
-    action: watchAddTodoRequestAction
+    action: WatchAddTodoRequestAction
   ) {
     try {
       const { data } = yield call(todoAPI.addTodo, action.payload);
@@ -110,9 +110,9 @@ function* watchAddTodo() {
   });
 }
 
-function* watchDeleteTodo() {
+function* WatchDeleteTodo() {
   yield takeLatest(DELETE_TODO.REQUEST, function* (
-    action: watchDeleteTodoRequestAction
+    action: WatchDeleteTodoRequestAction
   ) {
     try {
       const id = action.payload;
@@ -124,9 +124,9 @@ function* watchDeleteTodo() {
   });
 }
 
-function* watchChangeDone() {
+function* WatchChangeDone() {
   yield takeLatest(CHANGE_DONE.REQUEST, function* (
-    action: watchChangeDoneRequestAction
+    action: WatchChangeDoneRequestAction
   ) {
     try {
       const id = action.payload;
@@ -140,10 +140,10 @@ function* watchChangeDone() {
 
 export function* todoSaga() {
   yield all([
-    fork(watchSetTodo),
-    fork(watchAddTodo),
-    fork(watchDeleteTodo),
-    fork(watchChangeDone),
+    fork(WatchSetTodo),
+    fork(WatchAddTodo),
+    fork(WatchDeleteTodo),
+    fork(WatchChangeDone),
   ]);
 }
 
